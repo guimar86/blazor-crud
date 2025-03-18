@@ -38,12 +38,12 @@ jobs:
         run: |
           VERSION=$(grep -oP '(?<=<Version>)(.*)(?=</Version>)' **/*.csproj)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-      - name: Check if secrets are available
-        run: |
-          echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}"
-          echo "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}"
           
-          # Check if the Docker image with the version already exists on Docker Hub
+      # Docker Authentication
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        
+        # Check if the Docker image with the version already exists on Docker Hub
       - name: Check if Docker Image Exists on Docker Hub
         id: check_image_exists
         run: |
@@ -54,11 +54,7 @@ jobs:
           else
             echo "Image $IMAGE_TAG does not exist. Proceeding with build.";
           fi
-
-      # Docker Authentication
-      - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
+      
       # Build and Tag Frontend Image
       - name: Build Frontend Image
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/blazor-frontend:${{ env.VERSION }} .

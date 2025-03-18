@@ -38,8 +38,12 @@ jobs:
         run: |
           VERSION=$(grep -oP '(?<=<Version>)(.*)(?=</Version>)' **/*.csproj)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-
-      # Check if the Docker image with the version already exists on Docker Hub
+      - name: Check if secrets are available
+        run: |
+          echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}"
+          echo "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}"
+          
+          # Check if the Docker image with the version already exists on Docker Hub
       - name: Check if Docker Image Exists on Docker Hub
         id: check_image_exists
         run: |
@@ -66,6 +70,6 @@ jobs:
       # Push Images to Docker Hub
       - name: Push Frontend Image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/blazor-frontend:${{ env.VERSION }}
- 
+
       - name: Push Backend Image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/blazor-backend:${{ env.VERSION }}

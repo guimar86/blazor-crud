@@ -57,11 +57,11 @@ jobs:
 
       # Build and Tag Frontend Image
       - name: Build Frontend Image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/blazor-frontend:${{ env.VERSION }} -f Dockerfile.frontend .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/blazor-frontend:${{ env.VERSION }} .
 
       # Build and Tag Backend (Database) Image
       - name: Build Backend Image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/blazor-backend:${{ env.VERSION }} -f Dockerfile.backend .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/blazor-backend:${{ env.VERSION }} .
 
       # Push Images to Docker Hub
       - name: Push Frontend Image

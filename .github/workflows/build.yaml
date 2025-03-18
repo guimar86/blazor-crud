@@ -66,6 +66,6 @@ jobs:
       # Push Images to Docker Hub
       - name: Push Frontend Image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/blazor-frontend:${{ env.VERSION }}
-
+ 
       - name: Push Backend Image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/blazor-backend:${{ env.VERSION }}

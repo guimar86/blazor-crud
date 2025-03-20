@@ -8,7 +8,7 @@ on:
     branches:
       - main
 env:
-  DOCKER_HUB_USERNAME:${{ secrets.DOCKER_USERNAME }}
+  DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 jobs:
   build:
     runs-on: ubuntu-latest

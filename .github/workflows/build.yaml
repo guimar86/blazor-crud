@@ -7,7 +7,8 @@ on:
   pull_request:
     branches:
       - main
-
+env:
+  DOCKER_HUB_USERNAME:${{ secrets.DOCKER_USERNAME }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -47,7 +48,7 @@ jobs:
       - name: Check if Docker Image Exists on Docker Hub
         id: check_image_exists
         run: |
-          IMAGE_TAG="${{ secrets.DOCKER_USERNAME }}/blazor-frontend:${{ env.VERSION }}"
+          IMAGE_TAG="${{ env.DOCKER_HUB_USERNAME }}/blazor-frontend:${{ env.VERSION }}"
           API_URL="https://hub.docker.com/v2/repositories/${{ secrets.DOCKER_USERNAME }}/blazor-frontend/tags/${{ env.VERSION }}"
           
           # Check if image tag exists by calling Docker Hub API
@@ -62,15 +63,15 @@ jobs:
       
       # Build and Tag Frontend Image
       - name: Build Frontend Image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/blazor-frontend:${{ env.VERSION }} .
+        run: docker build -t ${{ env.DOCKER_HUB_USERNAME }}/blazor-frontend:${{ env.VERSION }} .
 
       # Build and Tag Backend (Database) Image
       - name: Build Backend Image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/blazor-backend:${{ env.VERSION }} .
+        run: docker build -t ${{ env.DOCKER_HUB_USERNAME }}/blazor-backend:${{ env.VERSION }} .
 
       # Push Images to Docker Hub
       - name: Push Frontend Image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/blazor-frontend:${{ env.VERSION }}
+        run: docker push ${{ env.DOCKER_HUB_USERNAME }}/blazor-frontend:${{ env.VERSION }}
 
       - name: Push Backend Image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/blazor-backend:${{ env.VERSION }}
+        run: docker push ${{ env.DOCKER_HUB_USERNAME }}/blazor-backend:${{ env.VERSION }}

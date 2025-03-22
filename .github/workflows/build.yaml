@@ -59,7 +59,7 @@ jobs:
       - name: Build and Push Docker Image
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
-          image: guillenmartins/blazor-frontend:${{ env.VERSION }}
+          image: guillenmartins/blazor-frontend
           dockerfile: 'BlazorCrud/Dockerfile'
           tags: ${{env.VERSION}},latest
           registry: docker.io

@@ -70,7 +70,6 @@ jobs:
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
           image: guillenmartins/blazor-backend
-          dockerfile: 'BlazorCrud/Dockerfile'
           tags: ${{env.VERSION}},latest
           registry: docker.io
           username: ${{ secrets.DOCKER_USERNAME }}

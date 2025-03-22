@@ -61,7 +61,7 @@ jobs:
           IMAGE_TAG="${{ secrets.DOCKER_USERNAME }}/blazor-frontend:${{ env.VERSION }}"
           if docker manifest inspect $IMAGE_TAG > /dev/null 2>&1; then
             echo "Image $IMAGE_TAG already exists. Skipping push."
-            exit 1  # Fails the job if the image already exists
+            exit 1  # Fails the job if the image with version ${{env.VERSION}} already exists
           else
             echo "Image $IMAGE_TAG does not exist. Proceeding with build."
           fi
@@ -71,8 +71,7 @@ jobs:
         with:
           image: guillenmartins/blazor-frontend
           dockerfile: 'BlazorCrud/Dockerfile'
-          tags: ${{ env.VERSION }},latest
+          tags: ${{ env.VERSION }}
           registry: docker.io
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-#comment
